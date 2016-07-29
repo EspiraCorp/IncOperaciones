@@ -1,0 +1,27 @@
+{
+    "name": "samson/unexpected-response-bundle",
+    "description": "Allows throwing a response from virtually anywhere",
+    "keywords": ["symfony", "reponse"],
+    "homepage": "https://github.com/SamsonIT/UnexpectedResponseBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Bart van den Burg",
+            "email": "bart@samson-it.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/http-kernel": "*",
+        "symfony/http-foundation": "*"
+    },
+    "require-dev": {
+        "symfony/symfony": "*"
+    },
+    "autoload": {
+        "psr-0": { "Samson\\Bundle\\UnexpectedResponseBundle": "" }
+    },
+    "target-dir": "Samson/Bundle/UnexpectedResponseBundle"
+}
