@@ -1,11 +1,11 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: manuelstardust-incoperaciones-1418397
     database_port: 3306
-    database_name: incoperaciones_prod
-    database_user: root
-    database_password: orwell
+    database_name: incoperaciones_new
+    database_user: manuelstardust
+    database_password: 
         
     mailer_transport: 
     mailer_host: 
