@@ -1,0 +1,85 @@
+<div><h2>Cotizaciones</h2></div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Solicitud</th>
+        <th>Programa</th>
+        <th>Centro Costos</th>
+        <th>Cotización</th>
+        <th>Fecha Aprobacion</th>
+        <th>Sku</th>
+        <th>Producto</th>
+        <th>Marca</th>
+        <th>Referencia</th>
+        <th>Cantidad</th>
+        <th>Valor Venta</th>
+        <th>Valor Total</th>
+    </tr>
+{% set ij = 0 %}
+{% for producto in cotizaciones %}
+    <tr>
+        {% set ij = ij + 1 %}
+        
+        {% set valorVenta = producto.valorunidad/(1-(producto.incremento/100)) + producto.logistica %}
+        {% set valorTotal = valorVenta * producto.cantidad %}
+        <td>{{ ij }}</td>
+        <td>{{ producto.cotizacion.solicitud.id }}</td>
+        <td>{{ producto.cotizacion.solicitud.programa.nombre }}</td>
+        <td>{{ producto.cotizacion.solicitud.programa.centrocostos }}</td>
+        <td>{{ producto.cotizacion.consecutivo }}</td>
+        <td>{{ producto.producto.fechaModificacion | date }}</td>
+        <td>{{ producto.producto.codInc }}</td>
+        <td>{{ producto.producto.nombre }}</td>
+        <td>{{ producto.producto.marca }}</td>
+        <td>{{ producto.producto.referencia }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>${{ valorVenta |number_format(2, ',', '.') }}</td>
+        <td>${{ valorTotal |number_format(2, ',', '.') }}</td>
+    </tr>
+
+{% endfor %}
+</table>
+
+<div><h2>Requisiciones</h2></div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Requisicion</th>
+        <th>Programa</th>
+        <th>Centro Costos</th>
+        <th>Cotización</th>
+        <th>Fecha Aprobacion</th>
+        <th>Sku</th>
+        <th>Producto</th>
+        <th>Marca</th>
+        <th>Referencia</th>
+        <th>Cantidad</th>
+        <th>Valor Venta</th>
+        <th>Valor Total</th>
+    </tr>
+{% set ij = 0 %}
+{% for producto in requisiciones %}
+    <tr>
+        {% set ij = ij + 1 %}
+        
+        {% set valorVenta = producto.valorunidad/(1-(producto.incremento/100)) + producto.logistica %}
+        {% set valorTotal = valorVenta * producto.cantidad %}
+        <td>{{ ij }}</td>
+        <td>{{ producto.requisicion.solicitud.id }}</td>
+        <td>{{ producto.requisicion.solicitud.programa.nombre }}</td>
+        <td>{{ producto.requisicion.solicitud.programa.centrocostos }}</td>
+        <td>{{ producto.requisicion.consecutivo }}</td>
+        <td>{{ producto.producto.fechaModificacion | date }}</td>
+        <td>{{ producto.producto.codInc }}</td>
+        <td>{{ producto.producto.nombre }}</td>
+        <td>{{ producto.producto.marca }}</td>
+        <td>{{ producto.producto.referencia }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>${{ valorVenta |number_format(2, ',', '.') }}</td>
+        <td>${{ valorTotal |number_format(2, ',', '.') }}</td>
+    </tr>
+
+{% endfor %}
+</table>
+
+<div><h2>Logistica</h2></div>
