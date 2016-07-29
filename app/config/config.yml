@@ -1,0 +1,209 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
+        #yui_css:
+        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+
+knp_paginator:
+    page_range: 10                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_pagination.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+        
+services:
+    insert.listener:
+        class: Incentives\BaseBundle\EventListener\LogRegister
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    update.listener:
+        class: Incentives\BaseBundle\EventListener\LogRegister
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            
+    postPersist.listener:
+        class: Incentives\BaseBundle\EventListener\LogRegister
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+simple_things_entity_audit:
+    audited_entities:
+        - Incentives\OperacionesBundle\Entity\Aeconomica
+        - Incentives\OperacionesBundle\Entity\Archivos
+        - Incentives\FacturacionBundle\Entity\Areas
+        - Incentives\CatalogoBundle\Entity\Atributosproducto
+        - Incentives\CatalogoBundle\Entity\Atributostipo
+        - Incentives\OperacionesBundle\Entity\Catalogo
+        - Incentives\CatalogoBundle\Entity\CatalogoTipo
+        - Incentives\CatalogoBundle\Entity\Catalogos
+        - Incentives\OperacionesBundle\Entity\Categoria
+        - Incentives\InventarioBundle\Entity\CierreEstado
+        - Incentives\OperacionesBundle\Entity\Ciudad
+        - Incentives\CatalogoBundle\Entity\Cliente
+        - Incentives\OperacionesBundle\Entity\Contacto
+        - Incentives\OperacionesBundle\Entity\Convocatorias
+        - Incentives\OperacionesBundle\Entity\ConvocatoriasArchivos
+        - Incentives\OperacionesBundle\Entity\ConvocatoriasEstado
+        - Incentives\OperacionesBundle\Entity\ConvocatoriasHistorico
+        - Incentives\OperacionesBundle\Entity\ConvocatoriasProveedores
+        - Incentives\InventarioBundle\Entity\CostosLogistica
+        - Incentives\SolicitudesBundle\Entity\Cotizacion
+        - Incentives\SolicitudesBundle\Entity\CotizacionProducto
+        - Incentives\SolicitudesBundle\Entity\CotizacionesEstado
+        - Incentives\InventarioBundle\Entity\Courier
+        - Incentives\OperacionesBundle\Entity\Departamento
+        - Incentives\InventarioBundle\Entity\DespachoGuia
+        - Incentives\SolicitudesBundle\Entity\DespachoOrdenes
+        - Incentives\InventarioBundle\Entity\Despachos
+        - Incentives\CatalogoBundle\Entity\EstadoAprobacion
+        - Incentives\CatalogoBundle\Entity\EstadoCatalogo
+        - Incentives\CatalogoBundle\Entity\Estados
+        - Incentives\OperacionesBundle\Entity\Excel
+        - Incentives\CatalogoBundle\Entity\Excelmas
+        - Incentives\FacturacionBundle\Entity\Factura
+        - Incentives\FacturacionBundle\Entity\FacturaDetalle
+        - Incentives\FacturacionBundle\Entity\FacturaLogistica
+        - Incentives\FacturacionBundle\Entity\FacturaProductos
+        - Incentives\FacturacionBundle\Entity\Facturacostos
+        - Incentives\FacturacionBundle\Entity\Facturaestado
+        - Incentives\BaseBundle\Entity\Grupo
+        - Incentives\RedencionesBundle\Entity\GuiaEnvio
+        - Incentives\CatalogoBundle\Entity\Imagenproducto
+        - Incentives\CatalogoBundle\Entity\Intervalos
+        - Incentives\InventarioBundle\Entity\Inventario
+        - Incentives\InventarioBundle\Entity\InventarioGuia
+        - Incentives\InventarioBundle\Entity\InventarioHistorico
+        - Incentives\RedencionesBundle\Entity\Justificacion
+        - Incentives\BaseBundle\Entity\Menu
+        - Incentives\OrdenesBundle\Entity\MonedaTipo
+        - Incentives\GarantiasBundle\Entity\Novedades
+        - Incentives\GarantiasBundle\Entity\NovedadesDevolucionTipo
+        - Incentives\GarantiasBundle\Entity\Novedadesaccion
+        - Incentives\GarantiasBundle\Entity\Novedadesestado
+        - Incentives\GarantiasBundle\Entity\Novedadestipo
+        - Incentives\OrdenesBundle\Entity\OrdenesCompra
+        - Incentives\OrdenesBundle\Entity\OrdenesCompraHistorico
+        - Incentives\OrdenesBundle\Entity\OrdenesEstado
+        - Incentives\OrdenesBundle\Entity\OrdenesProducto
+        - Incentives\OrdenesBundle\Entity\OrdenesProductoHistorico
+        - Incentives\OrdenesBundle\Entity\OrdenesTipo
+        - Incentives\OperacionesBundle\Entity\Pais
+        - Incentives\RedencionesBundle\Entity\Participantes
+        - Incentives\RedencionesBundle\Entity\Participantesestado
+        - Incentives\FacturacionBundle\Entity\Periodos
+        - Incentives\InventarioBundle\Entity\Planilla
+        - Incentives\InventarioBundle\Entity\PlanillaEstado
+        - Incentives\InventarioBundle\Entity\PlanillaTipo
+        - Incentives\CatalogoBundle\Entity\Preciohistorico
+        - Incentives\FacturacionBundle\Entity\Presupuestos
+        - Incentives\FacturacionBundle\Entity\Presupuestoshistorico
+        - Incentives\SolicitudesBundle\Entity\Prioridad
+        - Incentives\CatalogoBundle\Entity\Producto
+        - Incentives\CatalogoBundle\Entity\ProductoCalificacion
+        - Incentives\CatalogoBundle\Entity\ProductoIdiomas
+        - Incentives\CatalogoBundle\Entity\ProductoTipo
+        - Incentives\CatalogoBundle\Entity\Productocatalogo
+        - Incentives\CatalogoBundle\Entity\ProductocatalogoHistorico
+        - Incentives\CatalogoBundle\Entity\Productoclasificacion
+        - Incentives\CatalogoBundle\Entity\Productoprecio
+        - Incentives\CatalogoBundle\Entity\Programa
+        - Incentives\OperacionesBundle\Entity\Proveedores
+        - Incentives\OperacionesBundle\Entity\ProveedoresArea
+        - Incentives\OperacionesBundle\Entity\ProveedoresCalificacion
+        - Incentives\OperacionesBundle\Entity\ProveedoresClasificacion
+        - Incentives\OperacionesBundle\Entity\ProveedoresHistorico
+        - Incentives\OperacionesBundle\Entity\ProveedoresTipo
+        - Incentives\RedencionesBundle\Entity\Redenciones
+        - Incentives\RedencionesBundle\Entity\RedencionesHistorico
+        - Incentives\RedencionesBundle\Entity\Redencionesatributos
+        - Incentives\RedencionesBundle\Entity\Redencionesenvios
+        - Incentives\RedencionesBundle\Entity\Redencionesestado
+        - Incentives\OperacionesBundle\Entity\Regimen
+        - Incentives\SolicitudesBundle\Entity\Requisicion
+        - Incentives\SolicitudesBundle\Entity\RequisicionProducto
+        - Incentives\InventarioBundle\Entity\Requisicionesenvios
+        - Incentives\ServiciosBundle\Entity\Servicios
+        - Incentives\ServiciosBundle\Entity\ServiciosLog
+        - Incentives\SolicitudesBundle\Entity\Solicitud
+        - Incentives\SolicitudesBundle\Entity\SolicitudTipo
+        - Incentives\SolicitudesBundle\Entity\SolicitudesArchivos
+        - Incentives\SolicitudesBundle\Entity\SolicitudesAsignar
+        - Incentives\SolicitudesBundle\Entity\SolicitudesEstado
+        - Incentives\SolicitudesBundle\Entity\SolicitudesObservaciones
+        - Incentives\OperacionesBundle\Entity\Tipoarchivo
+        - Incentives\FacturacionBundle\Entity\Tipocostos
+        - Incentives\OperacionesBundle\Entity\Tipodocumento
+        - Incentives\OrdenesBundle\Entity\Tracking
+        - Incentives\BaseBundle\Entity\Usuario
+        - Incentives\BaseBundle\Entity\Menu
+        - Incentives\BaseBundle\Entity\Grupo
